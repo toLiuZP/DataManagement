@@ -16,7 +16,7 @@ import openpyxl.styles as sty
 
 import conf.acct as acct
 import db_connect.db_operator as DB
-from tool.tool import file_name,logger,identify_backup_tables
+from tool.tool import file_name,logger,identify_backup_tables,pop_db_name
 
 SEED_FILE = r".\seed\DDL_GAP_AB.xlsx"
 excelName = file_name('DDL_GAP_AB','xlsx')
@@ -24,7 +24,6 @@ workbook = load_workbook(SEED_FILE)
 ddl_sheet = workbook['DDL']
 sp_sheet = workbook['SP']
 index_sheet = workbook['INDEX']
-
 
 def merge_ddl(db1, db2, sheet):
 
@@ -116,9 +115,9 @@ def check_ddl(workbook,ddl_sheet,db_a, db_b):
 
     new_sheet = workbook.copy_worksheet(ddl_sheet)
     new_sheet.title = "DDL"
+
     ddl_a = DB.query_db_pandas(query, db_a)
     ddl_b = DB.query_db_pandas(query, db_b)
-
     merge_ddl(ddl_a,ddl_b,new_sheet)
     
 
@@ -149,10 +148,19 @@ def check_index(workbook,ddl_sheet,db_a, db_b):
 if __name__ == '__main__':
 
     db_a = acct.QA_CO_HF_MART
-    db_b = acct.PROD_CO_HF_MART
+    db_b = acct.QA_KS_HF_MART
+
+    db_a_name = pop_db_name(db_a)
+    db_b_name = pop_db_name(db_b)
+    ddl_sheet.cell(row=1,column=3).value = db_a_name
+    ddl_sheet.cell(row=1,column=8).value = db_b_name
+    sp_sheet.cell(row=1,column=3).value = db_a_name
+    sp_sheet.cell(row=1,column=4).value = db_b_name
+    index_sheet.cell(row=1,column=3).value = db_a_name
+    index_sheet.cell(row=1,column=4).value = db_b_name
 
     check_ddl(workbook,ddl_sheet,db_a,db_b)
-    #check_sp(workbook,sp_sheet,db_a,db_b)
+    check_sp(workbook,sp_sheet,db_a,db_b)
     check_index(workbook,index_sheet,db_a,db_b)
     
 workbook.remove(workbook['DDL'])
