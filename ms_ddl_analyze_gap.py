@@ -1,5 +1,7 @@
 ######
-#
+# 1. Compare meta between two MSSQL DB, list difference.
+# 2. Compare Store Precedure bewteen two MSSQL DB, list difference.
+# 3. Compare index between two MSSQL DB, list difference. 
 #
 ######
 
