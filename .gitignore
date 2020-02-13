@@ -2,4 +2,6 @@
 __pycache__
 output/*
 seed/*
-
+conf/*
+.vscode/launch.json
+deployment/release_scripts/*

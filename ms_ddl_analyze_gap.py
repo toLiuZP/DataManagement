@@ -21,9 +21,9 @@ from tool.tool import file_name,logger,identify_backup_tables
 SEED_FILE = r".\seed\DDL_GAP_AB.xlsx"
 excelName = file_name('DDL_GAP_AB','xlsx')
 workbook = load_workbook(SEED_FILE)
-ddl_sheet = workbook.get_sheet_by_name('DDL')
-sp_sheet = workbook.get_sheet_by_name('SP')
-index_sheet = workbook.get_sheet_by_name('INDEX')
+ddl_sheet = workbook['DDL']
+sp_sheet = workbook['SP']
+index_sheet = workbook['INDEX']
 
 
 def merge_ddl(db1, db2, sheet):
@@ -148,14 +148,14 @@ def check_index(workbook,ddl_sheet,db_a, db_b):
 
 if __name__ == '__main__':
 
-    db_a = acct.DEV_DMA_MART_TEST
-    db_b = acct.UAT_TX_CAMPING_MART
+    db_a = acct.QA_CO_HF_MART
+    db_b = acct.PROD_CO_HF_MART
 
     check_ddl(workbook,ddl_sheet,db_a,db_b)
     #check_sp(workbook,sp_sheet,db_a,db_b)
     check_index(workbook,index_sheet,db_a,db_b)
     
-workbook.remove_sheet(workbook.get_sheet_by_name('DDL'))
-workbook.remove_sheet(workbook.get_sheet_by_name('SP'))
-workbook.remove_sheet(workbook.get_sheet_by_name('INDEX'))
+workbook.remove(workbook['DDL'])
+workbook.remove(workbook['SP'])
+workbook.remove(workbook['INDEX'])
 workbook.save(excelName)
