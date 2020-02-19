@@ -15,18 +15,16 @@ release_file = {
     '1905':r'C:\LiuZP\00. CodeBase\Aspira\insights-sql\Deployment\CAMPING_MART\PK1905_Main.sql',
     '190401':r'C:\LiuZP\00. CodeBase\Aspira\insights-sql\Deployment\CAMPING_MART\PK190401_Main.sql',
     '1906':r'C:\LiuZP\00. CodeBase\Aspira\insights-sql\Deployment\CAMPING_MART\PK1906_Main.sql',
+    '190602':r'C:\LiuZP\00. CodeBase\Aspira\insights-sql\Deployment\CAMPING_MART\PK190602_Main.sql',
 }
 
 DEV = acct.DEV_TX_CAMPING_MART
 QA = acct.QA_TX_CAMPING_MART
 
 # FULL_CAMPING_MART_LIST = ['CO_CAMPING_MART','DE_CAMPING_MART','GA_CAMPING_MART','IA_CAMPING_MART','KS_CAMPING_MART','MS_CAMPING_MART','NC_CAMPING_MART','NY_CAMPING_MART','OR_CAMPING_MART','PA_CAMPING_MART','TX_CAMPING_MART','UT_CAMPING_MART','VA_CAMPING_MART','VT_CAMPING_MART']
-CAMPING_MART_LIST = ['UT_CAMPING_MART','PA_CAMPING_MART']
+CAMPING_MART_LIST = ['CO_CAMPING_MART']
 
-# create as initial 
-# FULL_RELEASE_VERSION = ['HF00','1902','1903','1904','190401','1905','1906']
-
-RELEASE_VERSION = ['PK00','1902','1903','1904','190401','1905','1906']
+RELEASE_VERSION = ['HF00','1902','1903','1904','190401']
 
 @logger
 def do_deploy(acct:dict, CAMPING_MART_LIST, RELEASE_VERSION, release_file):
@@ -41,7 +39,7 @@ def do_deploy(acct:dict, CAMPING_MART_LIST, RELEASE_VERSION, release_file):
         with open(restfilename, 'w') as file_object:
             file_object.write(client_scripts)
 
-        db_operator.update_db(client_scripts,acct)
+        #db_operator.update_db(client_scripts,acct)
 
 @logger
 def build_release_scripts(RELEASE_VERSION, release_file):
@@ -62,4 +60,4 @@ def build_release_scripts(RELEASE_VERSION, release_file):
     return final_script
 
 if __name__ == '__main__':
-    do_deploy(QA, CAMPING_MART_LIST, RELEASE_VERSION, release_file)
+    do_deploy(DEV, CAMPING_MART_LIST, RELEASE_VERSION, release_file)
