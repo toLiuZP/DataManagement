@@ -12,15 +12,17 @@ import os
 import json
 import re
 
-os.system("")
+#os.system("")
+sys.path.append(os.getcwd())
 
 import conf.acct as acct
 from db_connect.sqlserver_db import UseSqlserverDB, query_first_value, has_data, query
-from tool.tool import file_name,logger,identify_backup_tables
+from tool.tool import file_name,logger,identify_backup_tables,pop_db_name
 
-TARGET_DB = acct.DEV_NJ_HF_MART
+TARGET_DB = acct.QA_CO_HF_MART
+pop_db_name(TARGET_DB)
 table_list = []
-table_list = ['D_ADDRESS']
+#table_list = ['D_ADDRESS']
 
 
 filename = r'.\seed\business_key.json'
@@ -235,9 +237,9 @@ def check_data(cursor, table_list, business_key_conf):
 
     check_minus_one(cursor, table_list)
     #check_translation(cursor, tb_list)
-    table_counter = check_column(cursor, tb_list, business_key_conf)
+    #table_counter = check_column(cursor, tb_list, business_key_conf)
     
-    return table_counter
+    #return table_counter
 
 if __name__ == '__main__':
 

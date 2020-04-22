@@ -10,15 +10,17 @@ import sys
 sys.path.append(os.getcwd())
 
 import conf.acct as acct
-from tool.tool import file_name,logger 
+from tool.tool import file_name,logger,pop_db_name
 import db_connect.db_operator as db_operator
 
-target_db = "GA_CAMPING_MART"
+target_db = "TX_CAMPING_MART"
 seed_file = ".\seed\SYNC_TARGET_DB.sql"
 
 
 @logger
 def clean_dma_test_mart(acct:dict):
+
+    pop_db_name(acct)
 
     query = "SELECT 'DROP TABLE [' + NAME + '];' FROM sysobjects WHERE xtype = 'U' AND uid = 1 ORDER BY name"
     deletedsql = ''
@@ -32,6 +34,8 @@ def clean_dma_test_mart(acct:dict):
 @logger
 def build_target_db(acct:dict):
     buildsql = ''
+
+    #pop_db_name(acct)
 
     with open(seed_file,encoding="utf") as file_object:
         lines = file_object.readlines()
