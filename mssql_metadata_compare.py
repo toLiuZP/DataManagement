@@ -149,8 +149,8 @@ def check_index(workbook,ddl_sheet,db_a, db_b):
 
 if __name__ == '__main__':
 
-    db_a = acct.QA_KS_SALES_MART
-    db_b = acct.PROD_KS_SALES_MART
+    db_a = acct.QA_PA_CAMPING_MART
+    db_b = acct.PROD_PA_CAMPING_MART
 
     db_a_name = pop_db_name(db_a)
     db_b_name = pop_db_name(db_b)
@@ -162,7 +162,7 @@ if __name__ == '__main__':
     index_sheet.cell(row=1,column=4).value = db_b_name
 
     check_ddl(workbook,ddl_sheet,db_a,db_b)
-    check_sp(workbook,sp_sheet,db_a,db_b)
+    #check_sp(workbook,sp_sheet,db_a,db_b)
     check_index(workbook,index_sheet,db_a,db_b)
     
 workbook.remove(workbook['DDL'])

@@ -98,6 +98,7 @@ def check_duplicate(cursor,has_mart_source_id,has_awo_id,has_cur_rec_ind,has_cur
                 find_table_ind = True
             
                 duplicate_check_sql = "SELECT " + entity['COLUMNS'] + " FROM " + entity['TABLE'] + entity['WHERE'] + " GROUP BY " + entity['COLUMNS'] + " HAVING COUNT(*) > 1"
+                print(duplicate_check_sql)
                 has_duplicate = has_data(cursor,duplicate_check_sql)
                 if has_duplicate:
                     print ("\n\033[31m" + entity['TABLE'] + " has duplicate data on " + entity['COLUMNS'] + "\033[0m, please check by \n <<  \033[33m" + duplicate_check_sql + "\033[0m  >>\n")
@@ -237,7 +238,7 @@ def check_data(cursor, table_list, business_key_conf):
 
     check_minus_one(cursor, table_list)
     #check_translation(cursor, tb_list)
-    #table_counter = check_column(cursor, tb_list, business_key_conf)
+    table_counter = check_column(cursor, tb_list, business_key_conf)
     
     #return table_counter
 

@@ -47,7 +47,7 @@ END
 '''.replace('table_nm',drop_table_nm).replace('index_nm',drop_index_nm)
     return sql
 
-def gen_add_index(drop_table_nm:str, drop_index_nm:str, file_group:str)->str:
+def gen_add_index(table_nm:str, index_nm:str, file_group:str)->str:
     sql = '''
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id=OBJECT_ID('dbo.table_nm') AND name='index_nm')
 BEGIN
@@ -57,7 +57,7 @@ BEGIN
 	PRINT '<<< CREATED INDEX dbo.table_nm.index_nm >>>'
 END
 
-'''.replace('INDEX_FILE_GROUP',file_group+'_IDX').replace('table_nm',drop_table_nm).replace('index_nm',index_nm)
+'''.replace('INDEX_FILE_GROUP',file_group+'_IDX').replace('table_nm',table_nm).replace('index_nm',index_nm)
     return sql
 
 def gen_drop_column(drop_table_nm:str, drop_column_nm:str)->str:
