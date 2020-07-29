@@ -17,11 +17,12 @@ import openpyxl.styles as sty
 
 
 import conf.acct as acct
+import conf.acct_aws as acct_aws
 import db_connect.db_operator as DB
 from tool.tool import file_name,logger,identify_backup_tables,pop_db_name
 
 SEED_FILE = r".\seed\DDL_GAP_AB.xlsx"
-excelName = file_name('DDL_GAP_AB','xlsx')
+
 workbook = load_workbook(SEED_FILE)
 ddl_sheet = workbook['DDL']
 sp_sheet = workbook['SP']
@@ -149,8 +150,8 @@ def check_index(workbook,ddl_sheet,db_a, db_b):
 
 if __name__ == '__main__':
 
-    db_a = acct.QA_PA_CAMPING_MART
-    db_b = acct.PROD_PA_CAMPING_MART
+    db_a = acct.DEV_DMA_MART_TEST
+    db_b = acct.QA_ID_DASHBOARD_MART
 
     db_a_name = pop_db_name(db_a)
     db_b_name = pop_db_name(db_b)
@@ -162,9 +163,10 @@ if __name__ == '__main__':
     index_sheet.cell(row=1,column=4).value = db_b_name
 
     check_ddl(workbook,ddl_sheet,db_a,db_b)
-    #check_sp(workbook,sp_sheet,db_a,db_b)
+    check_sp(workbook,sp_sheet,db_a,db_b)
     check_index(workbook,index_sheet,db_a,db_b)
-    
+
+excelName = file_name('DDL_GAP_'+ db_a_name +'_' + db_b_name,'xlsx')
 workbook.remove(workbook['DDL'])
 workbook.remove(workbook['SP'])
 workbook.remove(workbook['INDEX'])

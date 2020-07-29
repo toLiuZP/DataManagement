@@ -13,7 +13,7 @@ import conf.acct as acct
 from tool.tool import file_name,logger,pop_db_name
 import db_connect.db_operator as db_operator
 
-target_db = "PA_CAMPING_MART"
+target_db = "MS_HF_MART"
 seed_file = ".\seed\SYNC_TARGET_DB.sql"
 
 
@@ -22,14 +22,22 @@ def clean_dma_test_mart(acct:dict):
 
     pop_db_name(acct)
 
-    query = "SELECT 'DROP TABLE [' + NAME + '];' FROM sysobjects WHERE xtype = 'U' AND uid = 1 ORDER BY name"
-    deletedsql = ''
-    result = db_operator.query_db(query,acct)
+    drop_ddl_query = "SELECT 'DROP TABLE [' + NAME + '];' FROM sysobjects WHERE xtype = 'U' AND uid = 1 ORDER BY name"
+    drop_ddl_sql = ''
+    drop_ddl_list = db_operator.query_db(drop_ddl_query,acct)
 
-    for item in result:
-        deletedsql += item[0]
+    for _ in drop_ddl_list:
+        drop_ddl_sql += _[0]
+
+    drop_sp_query = "SELECT 'DROP PROCEDURE [' + NAME + '];' FROM sys.all_objects a WHERE a.is_ms_shipped=0 AND a.[type] IN ('P','V','AF')"
+    drop_sp_sql = ''
+    drop_sp_list = db_operator.query_db(drop_sp_query,acct)
+
+    for _ in drop_sp_list:
+        drop_sp_sql += _[0]
     
-    db_operator.update_db(deletedsql,acct)
+    db_operator.update_db(drop_sp_sql,acct)
+    db_operator.update_db(drop_ddl_sql,acct)
     
 @logger
 def build_target_db(acct:dict):
@@ -46,4 +54,4 @@ def build_target_db(acct:dict):
 
 
 clean_dma_test_mart(acct.DEV_DMA_MART_TEST)
-build_target_db(acct.DEV_DMA_MART_TEST)
+#build_target_db(acct.DEV_DMA_MART_TEST)

@@ -10,14 +10,16 @@ from db_connect.sqlserver_db import UseSqlserverDB
 import conf.acct as acct
 import tool.TSQL as TSQL_function
 import tool.tool as tool
+from tool.tool import pop_db_name
 
-CURRENT_DB = acct.UAT_UT_CAMPING_MART
+CURRENT_DB = acct.QA_ID_CAMPING_MART
+pop_db_name(CURRENT_DB)
 SEED_FILE = r'.\seed\DataDictionary_Template.xlsx'
 excelName = tool.file_name('DataDictionary','xlsx')
 workbook = load_workbook(SEED_FILE)
 
 with UseSqlserverDB(CURRENT_DB) as cursor:
-    sheet = workbook.get_sheet_by_name('DataDictionary')
+    sheet = workbook['DataDictionary']
     rows = sheet.rows
     columns = sheet.columns
 

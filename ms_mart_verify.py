@@ -20,13 +20,13 @@ import conf.acct as acct
 from db_connect.sqlserver_db import UseSqlserverDB, query_first_value, has_data, query
 from tool.tool import file_name,logger,identify_backup_tables,pop_db_name
 
-TARGET_DB = acct.UAT_CO_HF_MART
+TARGET_DB = acct.PROD_CO_HF_MART
 print("Validating "+TARGET_DB['name']+":")
 pop_db_name(TARGET_DB)
 table_list = ['F_ORDER_ITEM_TRANSACTION']
 messager = pd.DataFrame(columns = ['msg_type','table_nm','column_nm','messager'])
 #table_list = ['B_ORDER_ITEM_FEE']
-not_validate_list = []
+not_validate_list = ['D_VENDOR_1118']
 #not_validate_list = ['F_PAYMENT_ALLOCATION']
 
 
@@ -266,7 +266,7 @@ def check_data(table_nm, business_key_conf):
     with UseSqlserverDB(TARGET_DB) as cursor:
 
         check_default_row(cursor, table_nm)
-        check_translation(cursor, table_nm)
+        #check_translation(cursor, table_nm)
         check_columns(cursor, table_nm, business_key_conf)
     
 
@@ -289,7 +289,7 @@ if __name__ == '__main__':
                     for index, row in messager[messager['msg_type'].isin(['2 check_default_row'])].iterrows():
                         print ("    "+row["messager"])
                 if not messager[messager['msg_type'].isin(['3 translation'])].empty:
-                    print("\nFollowing column(s) have un-transalated string:\n")
+                    print("\nFollowing column(s) have un-translate string:\n")
                     for index, row in messager[messager['msg_type'].isin(['3 translation'])].iterrows():
                         print ("    "+row["messager"])
                 if not messager[messager['msg_type'].isin(['4 duplicates'])].empty:
