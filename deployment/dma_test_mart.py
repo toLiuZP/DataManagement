@@ -29,9 +29,13 @@ def clean_dma_test_mart(acct:dict):
     for _ in drop_ddl_list:
         drop_ddl_sql += _[0]
 
-    drop_sp_query = "SELECT 'DROP PROCEDURE [' + NAME + '];' FROM sys.all_objects a WHERE a.is_ms_shipped=0 AND a.[type] IN ('P','V','AF')"
+    drop_sp_query = "SELECT 'DROP PROCEDURE [' + NAME + '];' FROM sys.all_objects a WHERE a.is_ms_shipped=0 AND a.[type] IN ('P','AF')"
     drop_sp_sql = ''
     drop_sp_list = db_operator.query_db(drop_sp_query,acct)
+
+    drop_view_query = "SELECT 'DROP VIEW [' + NAME + '];' FROM sys.all_objects a WHERE a.is_ms_shipped=0 AND a.[type] IN ('V','AF')"
+    drop_view_sql = ''
+    drop_view_list = db_operator.query_db(drop_view_query,acct)
 
     for _ in drop_sp_list:
         drop_sp_sql += _[0]
