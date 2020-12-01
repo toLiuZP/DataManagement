@@ -21,13 +21,13 @@ import conf.acct_aws as acct_aws
 from db_connect.sqlserver_db import UseSqlserverDB, query_first_value, has_data, query
 from tool.tool import file_name,logger,identify_backup_tables,pop_db_name
 
-TARGET_DB = acct_aws.QA_OR_CAMPING_MART
+TARGET_DB = acct_aws.QA_KS_MART
 print("Validating "+TARGET_DB['name']+":")
 pop_db_name(TARGET_DB)
 table_list = []
 messager = pd.DataFrame(columns = ['msg_type','table_nm','column_nm','messager'])
 #table_list = ['B_ORDER_ITEM_FEE']
-not_validate_list = []
+not_validate_list = ['F_PAYMENT_ALLOCATION']
 #not_validate_list = ['F_PAYMENT_ALLOCATION']
 
 

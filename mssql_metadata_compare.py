@@ -150,8 +150,8 @@ def check_index(workbook,ddl_sheet,db_a, db_b):
 
 if __name__ == '__main__':
 
-    db_a = acct.QA_MS_HF_MART
-    db_b = acct_aws.QA_MS_HF_MART
+    db_a = acct_aws.QA_CO_HF_MART
+    db_b = acct_aws.QA_MB_HF_MART
 
     db_a_name = pop_db_name(db_a)
     db_b_name = pop_db_name(db_b)

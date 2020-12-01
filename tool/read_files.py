@@ -1,10 +1,11 @@
 
 import os
 
-build_file = r".\output\build_script.sql"
+build_file = r".\output\build_script_test.sql"
 
 
-path =r"C:\LiuZP\00. CodeBase\Aspira\insights-sql\SourceCode\Databases\ASPIRAONE_DASHBOARD_MART\StoredProcedures1902"    #指定需要读取文件的目录
+#path =r"C:\LiuZP\00. CodeBase\Aspira\insights-sql\SourceCode\Databases\Combine_Mart"   
+path =r"C:\LiuZP\00. CodeBase\Aspira\insights-sql\SourceCode\Databases\Combine_Mart\Tables"  
 files =os.listdir(path) 
 files.sort() 
 file_list = []                  

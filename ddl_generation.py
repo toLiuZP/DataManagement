@@ -20,7 +20,7 @@ nameTime = time.strftime('%m/%d/%Y')
 workbook = load_workbook(SEED_FILE)
 sheetnames = workbook.sheetnames
 
-check_list = ['F_HARVEST_REGISTRATION']
+check_list = ['B_SLA_PRIV_AUTHORIZED_SPECIES']
 #check_list = ['B_AGENT_BANK_ACCOUNT','B_AGENT_CONTACT','B_AGENT_OWNER','B_CUSTOMER_BUSINESS_OWNERSHIP','B_CUSTOMER_CHILD_SUPPORT','B_CUSTOMER_HUNTER_EDUCATION','B_CUSTOMER_LEPERMIT','B_CUSTOMER_QUALIFICATION','B_CUSTOMER_RESTRICTION','B_GROUP_MEMBERSHIP','B_GROUP_PERMISSION','B_HUNT_APPLICATION_CHOICE','B_HUNT_APPLICATION_CUSTOMER','B_HUNT_AREA_COUNTY','B_HUNT_SEASON_HUNT','B_HUNT_TYPE_LICENSE_YEAR_HUNT','B_HUNT_TYPE_LICENSE_YEAR_HUNT_GENERATION','B_ITEM_PACKAGE','B_ITEM_PROPERTIES','B_ITEM_QUESTION','B_ITEM_QUESTION_ANSWER','B_LICENSE_ANCILLARY_DATA','B_LICENSE_REPORT_QUESTION_ACTION','B_LICENSE_REPORT_TEMPLATE_USAGE_LEVEL','B_USER_OUTLET','B_VESSEL_DOCUMENTATION','B_VESSEL_HOME_PORT','B_VESSEL_LEASE','B_VESSEL_OWNERSHIP','D_ADDRESS','D_AGENT','D_AGENT_APPLICATION_BUSINESS_INFO','D_ANSWER_OPTION','D_AUDIT_TRANSACTION_LOG','D_COUNTY','D_CUSTOMER','D_CUSTOMER_IDENTITY','D_DATE','D_DOCUMENT','D_DRAW','D_GROUP','D_HUNT','D_HUNT_APPLICATION','D_HUNT_AREA','D_HUNT_TYPE_LICENSE_YEAR','D_ITEM','D_LE_PERMIT','D_LE_PERMIT_TYPE','D_LICENSE','D_LICENSE_REPORT','D_LICENSE_REPORT_QUESTION','D_LICENSE_REPORT_QUESTION_GROUP','D_LICENSE_REPORT_TEMPLATE','D_OUTLET','D_PERMISSION','D_QUESTION','D_TIME','D_USER','D_VESSEL_PORT','F_AGENT_APPLICATION','F_HUNT_TYPE_LICENSE_YEAR_DRAW_STATISTICS','F_LICENSE_ACTION','F_PERMIT_CUSTOMER_TRANSFER','F_TRANSACTION_DETAIL','R_CUSTOMER_SOURCE','R_GENDER','R_LAND_TYPE','R_LICENSE_ACTION_TYPE','R_PERMIT_CUSTOMER_TRANSFER_TYPE','R_SALES_CHANNEL','R_STATUS_CODE','R_TRANSACTION_DETAIL_TYPE','R_TRANSACTION_TYPE','R_WEAPON','RPT_FEDERAL_AID','RPT_TRANSACTION_SALES']
 
 HEADER = '''
@@ -29,7 +29,7 @@ HEADER = '''
  *
  * DATE      	JIRA    	USER       		DESCRIPTION
  * ----------	--------	-----------		---------------------------------------
- * [RAPLACE_TODAY]	DMA-7109	Zongpei Liu		Initialization.
+ * [RAPLACE_TODAY]	DMA-6364	Zongpei Liu		Initialization.
 */
 
 SET NOCOUNT ON
@@ -105,8 +105,8 @@ def generate_ms_ddl():
                         column_nm = str(sheet.cell(row=row,column=4).value)
                         column_type = str(sheet.cell(row=row,column=6).value)
                         pk_ind = str(sheet.cell(row=row,column=7).value)
-                        column_comment = str(sheet.cell(row=row,column=19).value)
-                        index_ind = str(sheet.cell(row=row,column=20).value)
+                        column_comment = str(sheet.cell(row=row,column=8).value)
+                        index_ind = str(sheet.cell(row=row,column=9).value)
                         row_count +=1
                         if row_count == 2:
                             ddl += beauty_empty(PK_IDENTITY_COLUMN,column_nm,column_type)
@@ -123,7 +123,7 @@ def generate_ms_ddl():
                                 index += INDEX.replace('[RAPLACE_TABLE_NM]',table_nm).replace('[RAPLACE_COLUMN_NM]',column_nm)
                             if pk_ind == 'PK':
                                 pk_found = True
-                                pk_column += column_nm + ','
+                                pk_column += ',' + column_nm 
                 if table_found:
                     ddl += '''		CONSTRAINT PK_[RAPLACE_TABLE_NM] PRIMARY KEY CLUSTERED (R_PK_COLUMN)
     )ON [{TABLEFG}]\n\n'''.replace('[RAPLACE_TABLE_NM]',table_nm).replace('R_PK_COLUMN',pk_column[1:])
