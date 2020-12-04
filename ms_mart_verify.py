@@ -27,11 +27,11 @@ pop_db_name(TARGET_DB)
 table_list = []
 messager = pd.DataFrame(columns = ['msg_type','table_nm','column_nm','messager'])
 #table_list = ['B_ORDER_ITEM_FEE']
-not_validate_list = ['F_PAYMENT_ALLOCATION']
+not_validate_list = ['B_ORDER_ITEM_FEE','F_TRANSACTION']
 #not_validate_list = ['F_PAYMENT_ALLOCATION']
 
 
-filename = r'.\seed\business_key.json'
+filename = r'.\seed\business_key_combine.json'
 with open(filename) as f:
     business_key_conf = json.load(f)
 
@@ -98,6 +98,9 @@ def search_empty_tables(table_list,not_validate_list) -> list:
                     msg = "\033[32m" + table_name + "\033[0m only has -1 key row, please check."
                     add_msg('1 empty_table',table_name,'0',msg)
                     empty_table_counter += 1
+                elif (str(table_name).startswith("B_") or str(table_name).startswith("F_")) and rs_table_data[0][0] == -1:
+                    msg = "\033[32m" + table_name + "\033[0m HAS -1 key row, which should NOT. please check."
+                    add_msg('1 empty_table',table_name,'0',msg)
                 else:
                     not_empty_list.append(table_name)
             else:
@@ -140,6 +143,7 @@ def check_duplicate(cursor,has_mart_source_id,has_awo_id,has_cur_rec_ind,has_cur
             if entity['TABLE'] == table_nm:
                 find_table_ind = True
                 duplicate_check_sql = "SELECT " + entity['COLUMNS'] + " FROM " + entity['TABLE'] + entity['WHERE'] + " GROUP BY " + entity['COLUMNS'] + " HAVING COUNT(*) > 1"
+                #print(duplicate_check_sql) 
                 has_duplicate = has_data(cursor,duplicate_check_sql)
                 if has_duplicate:
                     msg = "\n\033[31m" + entity['TABLE'] + " has duplicate data on " + entity['COLUMNS'] + "\033[0m, please check by \n <<  \033[33m" + duplicate_check_sql + "\033[0m  >>\n"
